@@ -1,0 +1,29 @@
+<mat-toolbar >
+    My<b>Money</b> 
+    <span class="example-fill-remaining-space"></span>
+    <span>
+        <!-- <button mat-flat-button><i style="font-size: 20px;" class="far fa-user"></i></button> -->
+        <button style="border: 1px solid #ffffff;" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <i style="font-size: 20px;" class="far fa-user"></i>
+        </button>
+        <mat-menu #menu="matMenu">
+            <span><p style="margin-left: 15px; margin-right: 15px; font-size: 10px;">Zalogowano jako:</p></span>
+            <span><p style="margin-left: 15px; margin-right: 15px; text-align: center;">{{displayName}}</p></span>
+            <mat-divider></mat-divider>
+            <button (click)="logout()" style="margin-left: 15px; margin-right: 15px; margin-top: 10px;" mat-stroked-button color="primary">
+              <span>Wyloguj</span>
+            </button>
+        </mat-menu>
+    </span>
+</mat-toolbar>
+
+<mat-card style="margin: 20px; width: 20%; padding-top: 50px; min-height: 200px;">
+    <div style="margin: 0 auto; width: 80%">
+        <p style="width: 100%;">Twoje pokoje budżetowe:</p>
+        <!-- <p style="width: 100%"></p>
+        <mat-form-field style="width: 70%;">
+            <input style="width: 100%" name="organizationName"  matInput placeholder="Nazwa organizacji:">
+        </mat-form-field>
+        <button style="width: 18%; margin-top: 5px; margin-left: 15px;" mat-stroked-button value="Submit" type="button"><i class="fas fa-database"></i></button> -->
+    </div>
+</mat-card>
