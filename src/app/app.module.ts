@@ -13,6 +13,7 @@ import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MainPageComponent } from './_components/main-page/main-page.component';
 import { ToastrModule } from 'ngx-toastr';
+import { TokenIntercpetor } from './_shared/http/token.interceptor';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,13 @@ import { ToastrModule } from 'ngx-toastr';
     FormsModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenIntercpetor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

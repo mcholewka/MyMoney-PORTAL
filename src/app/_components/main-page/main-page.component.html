@@ -1,10 +1,11 @@
 <mat-toolbar >
+    <p><button mat-button (click)="sidenav.toggle()">Toggle</button></p>
     My<b>Money</b> 
     <span class="example-fill-remaining-space"></span>
     <span>
         <!-- <button mat-flat-button><i style="font-size: 20px;" class="far fa-user"></i></button> -->
-        <button style="border: 1px solid #ffffff;" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-            <i style="font-size: 20px;" class="far fa-user"></i>
+        <button style="border: 1px solid #111111;" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <i style="font-size: 20px;" class="fas fa-user-alt"></i>
         </button>
         <mat-menu #menu="matMenu">
             <span><p style="margin-left: 15px; margin-right: 15px; font-size: 10px;">Zalogowano jako:</p></span>
@@ -17,13 +18,42 @@
     </span>
 </mat-toolbar>
 
-<mat-card style="margin: 20px; width: 20%; padding-top: 50px; min-height: 200px;">
+
+<mat-sidenav-container class="example-container">
+    <mat-sidenav #sidenav mode="side" opened class="example-sidenav">
+        <div style="margin: 0 auto; width: 80%">
+            <p style="width: 100%; text-align: center;"><b>Twoje pokoje budżetowe:</b></p>
+    
+            <!-- <div style="margin: 0 auto; width: 80%">
+                <mat-form-field style="width: 70%;">
+                    <input [(ngModel)]="newRoomName" style="width: 100%" name="newRoomName"  matInput placeholder="Nazwa organizacji:">
+                </mat-form-field>
+                <button (click)="addNewRoom()" style="margin-top: 5px; margin-left: 15px; background-color: #03fc88; color: black; font-size: 20px;" mat-mini-fab value="Submit" type="button"><b> <i class="fas fa-plus"></i></b></button>
+            </div>  -->
+            
+            <div class="code-editor-options-menu" *ngFor="let dat of roomList.rooms">
+                  <button style="width: 100%; margin-bottom: 15px;" mat-stroked-button aria-hidden="true">{{dat.roomName}}</button>
+            </div>
+        </div>
+    </mat-sidenav>
+    <mat-sidenav-content>
+            EBEBEB
+    </mat-sidenav-content>
+</mat-sidenav-container>
+
+<!-- <mat-card style="margin: 20px; width: 30%; padding-top: 50px; min-height: 200px;">
     <div style="margin: 0 auto; width: 80%">
-        <p style="width: 100%;">Twoje pokoje budżetowe:</p>
-        <!-- <p style="width: 100%"></p>
-        <mat-form-field style="width: 70%;">
-            <input style="width: 100%" name="organizationName"  matInput placeholder="Nazwa organizacji:">
-        </mat-form-field>
-        <button style="width: 18%; margin-top: 5px; margin-left: 15px;" mat-stroked-button value="Submit" type="button"><i class="fas fa-database"></i></button> -->
+        <p style="width: 100%; text-align: center;"><b>Twoje pokoje budżetowe:</b></p>
+
+        <div style="margin: 0 auto; width: 80%">
+            <mat-form-field style="width: 70%;">
+                <input [(ngModel)]="newRoomName" style="width: 100%" name="newRoomName"  matInput placeholder="Nazwa organizacji:">
+            </mat-form-field>
+            <button (click)="addNewRoom()" style="margin-top: 5px; margin-left: 15px; background-color: #03fc88; color: black; font-size: 20px;" mat-mini-fab value="Submit" type="button"><b> <i class="fas fa-plus"></i></b></button>
+        </div> 
+        
+        <div class="code-editor-options-menu" *ngFor="let dat of roomList.rooms">
+              <button style="width: 100%; margin-bottom: 15px;" mat-stroked-button aria-hidden="true">{{dat.roomName}}</button>
+        </div>
     </div>
-</mat-card>
+</mat-card> -->
