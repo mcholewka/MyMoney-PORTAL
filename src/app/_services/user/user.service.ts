@@ -8,8 +8,10 @@ import { catchError,  } from 'rxjs/operators';
 import {ResponseWithToken} from "../../_models/response/responseWithToken.model";
 import {UserRegister} from "../../_models/user/UserRegister.model";
 import {ResponseWithUserID} from "../../_models/response/responseWithUserID.model";
+import {UserAddToRoomModel} from "../../_models/user/UserAddToRoom.model";
 
 const baseURL = "api/auth";
+const roomUrl = "api/rooms";
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -24,6 +26,11 @@ export class UserService {
     public registerUser(userRegister: UserRegister){
         var url = environment.baseBackendUrl + baseURL + "/register";
         return this.http.post<ResponseWithUserID>(url, userRegister).pipe(catchError(this.errorHandler));
+    }
+
+    public addUserToRoom(userToAdd: UserAddToRoomModel, roomID: string) {
+        var url = environment.baseBackendUrl + roomUrl + "/addUser/"+ roomID;
+        return this.http.post(url, userToAdd).pipe(catchError(this.errorHandler));
     }
 
     errorHandler(error: HttpErrorResponse){

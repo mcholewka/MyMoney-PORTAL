@@ -14,13 +14,17 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MainPageComponent } from './_components/main-page/main-page.component';
 import { ToastrModule } from 'ngx-toastr';
 import { TokenIntercpetor } from './_shared/http/token.interceptor';
+import { RoomComponent } from './_components/room/room.component';
+import { DeleteRoomDialogComponent } from './_components/room/dialogs/delete-room-dialog/delete-room-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    MainPageComponent
+    MainPageComponent,
+    RoomComponent,
+    DeleteRoomDialogComponent
   ],
   imports: [
     BrowserModule,

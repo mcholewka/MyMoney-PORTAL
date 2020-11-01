@@ -6,6 +6,7 @@ import jwt_decode from "jwt-decode";
 import {RoomService} from "../../_services/rooms/room.service";
 import {GetCurrentUserRooms} from "../../_models/rooms/getCurrentUserRooms.model";
 import {AddRoomModel} from "../../_models/rooms/addRoom.model";
+import {GetRoom} from "../../_models/rooms/getRoom.model";
 
 @Component({
   selector: 'app-main-page',
@@ -17,6 +18,7 @@ export class MainPageComponent implements OnInit {
   displayName: string;
   roomList: GetCurrentUserRooms;
   newRoomName: string;
+  currentRoom: GetRoom;
 
   constructor(public router: Router, private toastr: ToastrService, public userService: UserService, public roomService: RoomService) { }
 
@@ -27,9 +29,12 @@ export class MainPageComponent implements OnInit {
 
   getRoomList() {
     this.roomService.getCurrentUserRooms<GetCurrentUserRooms>().subscribe(data=>{
-      this.roomList = data;
-      console.log(data);
-      console.log(data.rooms[0].roomName);
+      // if(data!=undefined)
+      // {
+        this.roomList = data;
+        this.currentRoom = data.rooms[0];
+      //}
+      
     })
   }
 
@@ -42,6 +47,12 @@ export class MainPageComponent implements OnInit {
       })
     }
   }
+
+  setCurrentRoom(currentRoom: GetRoom) {
+    this.currentRoom = currentRoom;
+  }
+
+  
 
   logout(){
     localStorage.removeItem("token");

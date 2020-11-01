@@ -1,5 +1,5 @@
 <mat-toolbar >
-    <p><button mat-button (click)="sidenav.toggle()">Toggle</button></p>
+    <p><button style="margin-top: 10px;" mat-button (click)="sidenav.toggle()"><i class="fas fa-bars"></i></button></p>
     My<b>Money</b> 
     <span class="example-fill-remaining-space"></span>
     <span>
@@ -21,39 +21,25 @@
 
 <mat-sidenav-container class="example-container">
     <mat-sidenav #sidenav mode="side" opened class="example-sidenav">
-        <div style="margin: 0 auto; width: 80%">
+        <div class="div-roomList">
             <p style="width: 100%; text-align: center;"><b>Twoje pokoje budżetowe:</b></p>
     
-            <!-- <div style="margin: 0 auto; width: 80%">
+            <div style="margin: 0 auto;">
                 <mat-form-field style="width: 70%;">
-                    <input [(ngModel)]="newRoomName" style="width: 100%" name="newRoomName"  matInput placeholder="Nazwa organizacji:">
+                    <input [(ngModel)]="newRoomName" style="width: 100%" name="newRoomName"  matInput placeholder="Nazwa pokoju:">
                 </mat-form-field>
                 <button (click)="addNewRoom()" style="margin-top: 5px; margin-left: 15px; background-color: #03fc88; color: black; font-size: 20px;" mat-mini-fab value="Submit" type="button"><b> <i class="fas fa-plus"></i></b></button>
-            </div>  -->
-            
-            <div class="code-editor-options-menu" *ngFor="let dat of roomList.rooms">
-                  <button style="width: 100%; margin-bottom: 15px;" mat-stroked-button aria-hidden="true">{{dat.roomName}}</button>
-            </div>
+            </div> 
+                <div class="code-editor-options-menu" *ngFor="let dat of roomList.rooms">
+                        <button style="width: 100%; margin-bottom: 15px;" mat-stroked-button aria-hidden="true" (click)="setCurrentRoom(dat)" routerLink='/room/{{dat._id}}'>{{dat.roomName}}</button>
+                </div>
         </div>
     </mat-sidenav>
     <mat-sidenav-content>
-            EBEBEB
+            <!-- {{currentRoom.roomName}} -->
+            MY ALL MONEY
+
+
     </mat-sidenav-content>
 </mat-sidenav-container>
 
-<!-- <mat-card style="margin: 20px; width: 30%; padding-top: 50px; min-height: 200px;">
-    <div style="margin: 0 auto; width: 80%">
-        <p style="width: 100%; text-align: center;"><b>Twoje pokoje budżetowe:</b></p>
-
-        <div style="margin: 0 auto; width: 80%">
-            <mat-form-field style="width: 70%;">
-                <input [(ngModel)]="newRoomName" style="width: 100%" name="newRoomName"  matInput placeholder="Nazwa organizacji:">
-            </mat-form-field>
-            <button (click)="addNewRoom()" style="margin-top: 5px; margin-left: 15px; background-color: #03fc88; color: black; font-size: 20px;" mat-mini-fab value="Submit" type="button"><b> <i class="fas fa-plus"></i></b></button>
-        </div> 
-        
-        <div class="code-editor-options-menu" *ngFor="let dat of roomList.rooms">
-              <button style="width: 100%; margin-bottom: 15px;" mat-stroked-button aria-hidden="true">{{dat.roomName}}</button>
-        </div>
-    </div>
-</mat-card> -->
