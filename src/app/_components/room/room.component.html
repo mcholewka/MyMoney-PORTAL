@@ -28,7 +28,7 @@
                 <mat-form-field style="width: 70%;">
                     <input [(ngModel)]="newRoomName" style="width: 100%" name="newRoomName"  matInput placeholder="Nazwa pokoju:">
                 </mat-form-field>
-                <button (click)="addNewRoom()" style="margin-top: 5px; margin-left: 15px; background-color: #03fc88; color: black; font-size: 20px;" mat-mini-fab value="Submit" type="button"><b> <i class="fas fa-plus"></i></b></button>
+                <button (click)="addNewRoom()" style="margin-top: 5px; margin-left: 15px; border-width: 10px !important; border-color: #114d24; background-color: transparent; color: black; font-size: 20px;" mat-mini-fab value="Submit" type="button"><b> <i class="fas fa-plus"></i></b></button>
             </div> 
                 <div class="code-editor-options-menu" *ngFor="let dat of roomList.rooms">
                         <button style="width: 100%; margin-bottom: 15px;" mat-stroked-button aria-hidden="true" (click)="setCurrentRoom(dat)" routerLink='/room/{{dat._id}}'>{{dat.roomName}}</button>
@@ -56,7 +56,7 @@
                     <mat-form-field style="width: 88%;">
                         <input [(ngModel)]="newUserEmail" style="width: 100%" name="newUserEmail"  matInput placeholder="Email użytkownika:">
                     </mat-form-field>
-                    <button (click)="addNewUser()" style="margin-top: 5px; margin-left: 15px; background-color: #03fc88; color: black; font-size: 20px;" mat-mini-fab value="Submit" type="button"><b> <i class="fas fa-plus"></i></b></button>
+                    <button (click)="addNewUser()" style="margin-top: 5px; margin-left: 15px; border-width: 10px !important; border-color: #114d24; background-color: transparent; color: black; font-size: 20px;" mat-mini-fab value="Submit" type="button"><b> <i class="fas fa-plus"></i></b></button>
     
                     <table mat-table [dataSource]="dataSource" style="width: 100%;">
       
@@ -88,9 +88,9 @@
                     </mat-paginator>
                 </mat-card>
     
-                <mat-card style="width: 63%; margin-left: 15px; margin-top: 15px; float: left;">
+                <mat-card style="width: 63%; margin-left: 15px; margin-top: 15px; float: left; min-height: 700px;">
                     <div style="float: right;">
-                        <button mat-raised-button>Dodaj przychód  <i class="fas fa-plus"></i></button>
+                        <button (click)="addNewIncome()" mat-raised-button>Dodaj przychód  <i class="fas fa-plus"></i></button>
                         <br>
                         <button (click)="addNewExpense()" style="margin-top: 15px;" mat-raised-button>Dodaj wydatek  <i class="fas fa-plus"></i></button>
                     </div>

@@ -136,19 +136,24 @@ export class RoomComponent implements OnInit {
   }
 
   addNewExpense() {
-    this.openAddExpenseDialog();
+    this.openAddExpenseDialog(false);
   }
 
-  openAddExpenseDialog(): void {
+  openAddExpenseDialog(isIncome: Boolean): void {
     const dialogRef = this.dialog.open(AddExpenseDialogComponent, {
       width: '500px',
       data: {
-        roomID: this.currentID
+        roomID: this.currentID,
+        isIncome: isIncome
       }
     });
     dialogRef.afterClosed().subscribe(result => {
 
     });
+  }
+
+  addNewIncome() {
+    this.openAddExpenseDialog(true);
   }
 
   logout(){

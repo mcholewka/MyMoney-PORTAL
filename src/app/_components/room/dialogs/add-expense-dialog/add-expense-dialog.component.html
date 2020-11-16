@@ -1,5 +1,7 @@
 <div style="text-align: center;">
-    <p>Panel dodawania nowego wydatku:</p>
+    
+    <p *ngIf="!this.data.isIncome">Panel dodawania nowego wydatku:</p>
+    <p *ngIf="this.data.isIncome">Panel dodawania nowego przychodu:</p>
 
     <mat-form-field style="width: 88%;">
         <input [(ngModel)]="newExpenseTitle" style="width: 100%" name="newExpenseTitle"  matInput placeholder="Tytuł:">
@@ -15,16 +17,16 @@
 
     <mat-form-field appearance="fill" style="width: 88%;">
         <mat-label>Wybierz date:</mat-label>
-        <input matInput [matDatepicker]="picker">
+        <input matInput [matDatepicker]="picker" [(ngModel)]="newExpenseDate">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
-    <div style="width: 88%; display: grid; grid-template-columns: 1.5fr 0.5fr; margin: 0 auto">
+    <div style="width: 88%; display: grid; grid-template-columns: 1.3fr 0.7fr; margin: 0 auto">
         <mat-form-field appearance="fill">
             <mat-label>Wybierz kategorie:</mat-label>
-            <mat-select>
-                <mat-option *ngFor="let item of categoryList" [value]="item.categoryName">{{item.categoryName}}</mat-option>
+            <mat-select [(ngModel)]="selectedCategory">
+                <mat-option *ngFor="let item of categoryList" [value]="item">{{item.categoryName}}</mat-option>
             </mat-select>
         </mat-form-field>
         <button (click)="addNewCategory()" mat-button>Utwórz nową</button>
@@ -32,6 +34,6 @@
     
     <div mat-dialog-actions style="display: flex; justify-content: center;">
         <button mat-button (click)="onNoClick()">Anuluj</button>
-        <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Dodaj</button>
+        <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="addNewTransaction()">Dodaj</button>
     </div>
 </div>

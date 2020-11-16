@@ -6,6 +6,10 @@ import {GetCategoryList} from "../../../../_models/categorys/getCategorysList.mo
 import {AddNewCategoryModel} from "../../../../_models/categorys/addNewCategory.model";
 import { MatDialog } from '@angular/material/dialog';
 import {AddCategoryDialogComponent} from "../add-category-dialog/add-category-dialog.component";
+import {TransactionService} from "../../../../_services/transactions/transaction.service";
+import {AddTransactionModel} from "../../../../_models/transaction/addTransaction.model";
+import {GetCategory} from "../../../../_models/categorys/getCategory.model";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-expense-dialog',
@@ -19,9 +23,12 @@ export class AddExpenseDialogComponent implements OnInit {
   newExpenseCategoryID: string;
   newExpenseValue: Number;
   categoryList: GetCategoryList;
+  newExpenseDate: Date;
+  selectedCategory: GetCategory;
 
   constructor(public dialogRef: MatDialogRef<AddExpenseDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public message: string, @Inject(MAT_DIALOG_DATA) public data: any, public categoryService: CategoryService, public dialog: MatDialog) { }
+    @Inject(MAT_DIALOG_DATA) public message: string, @Inject(MAT_DIALOG_DATA) public data: any, public categoryService: CategoryService, private toastr: ToastrService,
+     public dialog: MatDialog, public transactionService: TransactionService) { }
 
   ngOnInit(): void {
     console.log(this.data.roomID)
@@ -56,6 +63,17 @@ export class AddExpenseDialogComponent implements OnInit {
         
       }
     });
+  }
+
+  addNewTransaction() {
+    this.transactionService.addNewTransaction(new AddTransactionModel(this.newExpenseTitle, this.newExpenseDescription, 
+      this.newExpenseValue, this.newExpenseDate, this.selectedCategory._id, this.data.roomID, this.data.isIncome)).subscribe(responseData=> {
+        if(!this.data.isIncome) {
+          this.toastr.success('Sukces!', 'Dodałeś nowy wydatek!');
+        }
+        else this.toastr.success('Sukces!', 'Dodałeś nowy przychód!');
+        
+      });
   }
 
 }
