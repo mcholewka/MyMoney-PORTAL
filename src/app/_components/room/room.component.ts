@@ -18,6 +18,9 @@ import { PageEvent, MatPaginator } from '@angular/material/paginator';
 import { UserAddToRoomModel } from 'src/app/_models/user/UserAddToRoom.model';
 import {CategoryService} from "../../_services/categorys/category.service";
 import {AddExpenseDialogComponent} from './dialogs/add-expense-dialog/add-expense-dialog.component';
+import {TransactionService} from "../../_services/transactions/transaction.service";
+import {GetTransactionListModel} from "../../_models/transaction/getTransactionList.model";
+import {AddTransactionModel} from "../../_models/transaction/addTransaction.model";
 
 @Component({
   selector: 'app-room',
@@ -46,13 +49,18 @@ export class RoomComponent implements OnInit {
 
   newUserEmail: string;
 
+  transactionList: AddTransactionModel[];
+  transactionsDisplayedColumns: string[] = ['arrow','transactionName', 'transactionDescription', 'transactionValue', 'transactionDate', 'category'];
+  transactionsDataSource: MatTableDataSource<AddTransactionModel>;
 
-  constructor(public router: Router, private activatedRoute: ActivatedRoute, private toastr: ToastrService, public userService: UserService, public roomService: RoomService, public dialog: MatDialog, public categoryService: CategoryService) { 
+  constructor(public router: Router, private activatedRoute: ActivatedRoute, private toastr: ToastrService, public userService: UserService, public roomService: RoomService, 
+    public dialog: MatDialog, public categoryService: CategoryService, public transactionService: TransactionService) { 
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
         this.currentID = this.activatedRoute.snapshot.paramMap.get('id');
         this.getRoom(this.currentID);
         this.getUsers();
+        this.getTransactionsList();
       }
       
     });
@@ -63,6 +71,7 @@ export class RoomComponent implements OnInit {
     this.getRoomList();
     this.currentID = this.activatedRoute.snapshot.paramMap.get('id');
     this.getRoom(this.currentID);
+    this.getTransactionsList();
   }
 
   getRoomList() {
@@ -154,6 +163,14 @@ export class RoomComponent implements OnInit {
 
   addNewIncome() {
     this.openAddExpenseDialog(true);
+  }
+
+  getTransactionsList() {
+    this.transactionService.getTransactionList<AddTransactionModel>(this.currentID).subscribe(responseData => {
+      console.log(responseData);
+      this.transactionList = responseData;
+      this.transactionsDataSource = new MatTableDataSource<AddTransactionModel>(responseData);
+    });
   }
 
   logout(){
