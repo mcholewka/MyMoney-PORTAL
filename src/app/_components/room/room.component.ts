@@ -16,6 +16,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import {GetUserModel} from "../../_models/rooms/getUser.model";
 import { PageEvent, MatPaginator } from '@angular/material/paginator';
 import { UserAddToRoomModel } from 'src/app/_models/user/UserAddToRoom.model';
+import {CategoryService} from "../../_services/categorys/category.service";
+import {AddExpenseDialogComponent} from './dialogs/add-expense-dialog/add-expense-dialog.component';
 
 @Component({
   selector: 'app-room',
@@ -45,7 +47,7 @@ export class RoomComponent implements OnInit {
   newUserEmail: string;
 
 
-  constructor(public router: Router, private activatedRoute: ActivatedRoute, private toastr: ToastrService, public userService: UserService, public roomService: RoomService, public dialog: MatDialog) { 
+  constructor(public router: Router, private activatedRoute: ActivatedRoute, private toastr: ToastrService, public userService: UserService, public roomService: RoomService, public dialog: MatDialog, public categoryService: CategoryService) { 
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
         this.currentID = this.activatedRoute.snapshot.paramMap.get('id');
@@ -122,6 +124,30 @@ export class RoomComponent implements OnInit {
   addNewUser() {
     this.userService.addUserToRoom(new UserAddToRoomModel(this.newUserEmail), this.currentID).subscribe(data=>{
       this.getUsers();
+      this.toastr.success('Sukces!', 'Dodałeś nowego użytkownika do pokoju!');
+    });
+  }
+
+  deleteUserFromRoom(id: string) {
+    this.roomService.deleteUserFromRoom(id, this.currentID).subscribe(data=> {
+      this.getUsers();
+      this.toastr.info("Pomyślnie usunięto użytkownika z pokoju", "Informacja!");
+    });
+  }
+
+  addNewExpense() {
+    this.openAddExpenseDialog();
+  }
+
+  openAddExpenseDialog(): void {
+    const dialogRef = this.dialog.open(AddExpenseDialogComponent, {
+      width: '500px',
+      data: {
+        roomID: this.currentID
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+
     });
   }
 

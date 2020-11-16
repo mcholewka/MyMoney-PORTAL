@@ -1,0 +1,12 @@
+<div style="text-align: center;">
+    <p>Panel dodawania nowej kategori:</p>
+
+    <mat-form-field style="width: 88%;">
+        <input [(ngModel)]="newCategoryName" style="width: 100%" name="newCategoryName"  matInput placeholder="Tytuł:">
+    </mat-form-field>
+
+    <div mat-dialog-actions style="display: flex; justify-content: center;">
+        <button mat-button (click)="onNoClick()">Anuluj</button>
+        <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="addNewCategory()">Dodaj</button>
+    </div>
+</div>

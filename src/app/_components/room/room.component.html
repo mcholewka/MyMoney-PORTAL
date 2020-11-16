@@ -50,42 +50,54 @@
            
             <mat-divider style="margin-left: 15px; margin-right: 15px;"></mat-divider>
             
+            <div>
+                <mat-card style="width: 30%; margin-left: 15px; margin-top: 15px; float: left;">
+                    <p>Lista użytkowników danego pokoju:</p>
+                    <mat-form-field style="width: 88%;">
+                        <input [(ngModel)]="newUserEmail" style="width: 100%" name="newUserEmail"  matInput placeholder="Email użytkownika:">
+                    </mat-form-field>
+                    <button (click)="addNewUser()" style="margin-top: 5px; margin-left: 15px; background-color: #03fc88; color: black; font-size: 20px;" mat-mini-fab value="Submit" type="button"><b> <i class="fas fa-plus"></i></b></button>
+    
+                    <table mat-table [dataSource]="dataSource" style="width: 100%;">
+      
+                        <ng-container matColumnDef="displayName">
+                            <th mat-header-cell *matHeaderCellDef> Organizacja: </th>
+                            <td mat-cell *matCellDef="let element"><button mat-button style="width: 100%;" type="button"> {{element.displayName}}</button>  </td>
+                        </ng-container>
+                  
+                        <ng-container matColumnDef="options">
+                            <th style="width: 80px;" mat-header-cell *matHeaderCellDef> Opcje: </th>
+                            <td mat-cell *matCellDef="let element">
+                                <button (click)="deleteUserFromRoom(element._id)" mat-stroked-button color="warn"><i class="fas fa-trash-alt"></i></button> 
+                            </td>
+                        </ng-container>
+                  
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                  
+                    <mat-paginator style="margin-bottom: 50px;"
+                        [length]="length"
+                        [pageIndex]="pageIndex"
+                        [pageSizeOptions]="[5, 10, 25, 100]"
+                        [pageSize]="pageSize" 
+                        
+                        showFirstLastButtons
+                        data-pagesize="pageSize"
+                      >
+                    </mat-paginator>
+                </mat-card>
+    
+                <mat-card style="width: 63%; margin-left: 15px; margin-top: 15px; float: left;">
+                    <div style="float: right;">
+                        <button mat-raised-button>Dodaj przychód  <i class="fas fa-plus"></i></button>
+                        <br>
+                        <button (click)="addNewExpense()" style="margin-top: 15px;" mat-raised-button>Dodaj wydatek  <i class="fas fa-plus"></i></button>
+                    </div>
+                </mat-card>
+            </div>
+            
 
-            <mat-card style="width: 30%; margin-left: 15px; margin-top: 15px">
-                <p>Lista użytkowników danego pokoju:</p>
-                <mat-form-field style="width: 88%;">
-                    <input [(ngModel)]="newUserEmail" style="width: 100%" name="newUserEmail"  matInput placeholder="Email użytkownika:">
-                </mat-form-field>
-                <button (click)="addNewUser()" style="margin-top: 5px; margin-left: 15px; background-color: #03fc88; color: black; font-size: 20px;" mat-mini-fab value="Submit" type="button"><b> <i class="fas fa-plus"></i></b></button>
 
-                <table mat-table [dataSource]="dataSource" style="width: 100%;">
-  
-                    <ng-container matColumnDef="displayName">
-                        <th mat-header-cell *matHeaderCellDef> Organizacja: </th>
-                        <td mat-cell *matCellDef="let element"><button mat-button style="width: 100%;" type="button"> {{element.displayName}}</button>  </td>
-                    </ng-container>
-              
-                    <ng-container matColumnDef="options">
-                        <th style="width: 80px;" mat-header-cell *matHeaderCellDef> Opcje: </th>
-                        <td mat-cell *matCellDef="let element">
-                            <!-- <button [disabled]="canDelete(element.id)" (click)="deleteOrg(element.id)" mat-stroked-button color="warn"><i class="fas fa-trash-alt"></i></button>  -->
-                        </td>
-                    </ng-container>
-              
-                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                </table>
-              
-                <mat-paginator style="margin-bottom: 50px;"
-                    [length]="length"
-                    [pageIndex]="pageIndex"
-                    [pageSizeOptions]="[5, 10, 25, 100]"
-                    [pageSize]="pageSize" 
-                    
-                    showFirstLastButtons
-                    data-pagesize="pageSize"
-                  >
-                </mat-paginator>
-            </mat-card>
     </mat-sidenav-content>
 </mat-sidenav-container>

@@ -16,6 +16,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { TokenIntercpetor } from './_shared/http/token.interceptor';
 import { RoomComponent } from './_components/room/room.component';
 import { DeleteRoomDialogComponent } from './_components/room/dialogs/delete-room-dialog/delete-room-dialog.component';
+import { AddExpenseDialogComponent } from './_components/room/dialogs/add-expense-dialog/add-expense-dialog.component';
+import { AddCategoryDialogComponent } from './_components/room/dialogs/add-category-dialog/add-category-dialog.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { DeleteRoomDialogComponent } from './_components/room/dialogs/delete-roo
     RegisterComponent,
     MainPageComponent,
     RoomComponent,
-    DeleteRoomDialogComponent
+    DeleteRoomDialogComponent,
+    AddExpenseDialogComponent,
+    AddCategoryDialogComponent
   ],
   imports: [
     BrowserModule,

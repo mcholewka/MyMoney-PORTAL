@@ -42,4 +42,9 @@ export class RoomService {
         var url = environment.baseBackendUrl + baseURL+"/getRoomUsers/"+id;
         return this.http.get<GetUserModel[]>(url);
     }
+
+    public deleteUserFromRoom(userID: string, roomID: string) {
+        var url = environment.baseBackendUrl + baseURL+ "/" + roomID + "/user/" + userID;
+        return this.http.delete(url);
+    }
 }

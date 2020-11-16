@@ -29,12 +29,8 @@ export class MainPageComponent implements OnInit {
 
   getRoomList() {
     this.roomService.getCurrentUserRooms<GetCurrentUserRooms>().subscribe(data=>{
-      // if(data!=undefined)
-      // {
         this.roomList = data;
-        this.currentRoom = data.rooms[0];
-      //}
-      
+        this.currentRoom = data.rooms[0]; 
     })
   }
 
