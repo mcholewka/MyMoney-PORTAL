@@ -21,6 +21,9 @@ import {AddExpenseDialogComponent} from './dialogs/add-expense-dialog/add-expens
 import {TransactionService} from "../../_services/transactions/transaction.service";
 import {GetTransactionListModel} from "../../_models/transaction/getTransactionList.model";
 import {AddTransactionModel} from "../../_models/transaction/addTransaction.model";
+import {GetSingleCategoryModel} from "../../_models/categorys/getSingleCategory.model";
+import {GetCategory} from "../../_models/categorys/getCategory.model";
+import {GetCategoryList} from "../../_models/categorys/getCategorysList.model";
 
 @Component({
   selector: 'app-room',
@@ -53,6 +56,13 @@ export class RoomComponent implements OnInit {
   transactionsDisplayedColumns: string[] = ['arrow','transactionName', 'transactionDescription', 'transactionValue', 'transactionDate', 'category'];
   transactionsDataSource: MatTableDataSource<AddTransactionModel>;
 
+  startDate: Date;
+  endDate: Date;
+  expenseCheckbox: Boolean;
+  incomeCheckbox: Boolean;
+  filterCategory: GetCategory;
+  categoryList: GetCategoryList;
+
   constructor(public router: Router, private activatedRoute: ActivatedRoute, private toastr: ToastrService, public userService: UserService, public roomService: RoomService, 
     public dialog: MatDialog, public categoryService: CategoryService, public transactionService: TransactionService) { 
     this.router.events.subscribe((event: Event) => {
@@ -72,6 +82,9 @@ export class RoomComponent implements OnInit {
     this.currentID = this.activatedRoute.snapshot.paramMap.get('id');
     this.getRoom(this.currentID);
     this.getTransactionsList();
+    this.expenseCheckbox = true;
+    this.incomeCheckbox = true;
+    this.getCategoryList();
   }
 
   getRoomList() {
@@ -157,7 +170,7 @@ export class RoomComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe(result => {
-
+      this.getFilteredTransactionList();
     });
   }
 
@@ -169,8 +182,42 @@ export class RoomComponent implements OnInit {
     this.transactionService.getTransactionList<AddTransactionModel>(this.currentID).subscribe(responseData => {
       console.log(responseData);
       this.transactionList = responseData;
-      this.transactionsDataSource = new MatTableDataSource<AddTransactionModel>(responseData);
+
+      this.transactionList.forEach(element => {
+        this.categoryService.getSingleCategory<GetSingleCategoryModel>(element.category).subscribe(responseData=> {
+          element.categoryName = responseData.categoryName;
+        })
+      });
+
+      this.transactionsDataSource = new MatTableDataSource<AddTransactionModel>(this.transactionList);
     });
+  }
+
+  getFilteredTransactionList() {
+    this.transactionService.getFilteredTransactionList<AddTransactionModel>(this.currentID, this.expenseCheckbox, this.incomeCheckbox, this.startDate, this.endDate).subscribe(responseData=> {
+      this.transactionList = responseData;
+      if(this.transactionList!=null) {
+        this.transactionList.forEach(element => {
+          this.categoryService.getSingleCategory<GetSingleCategoryModel>(element.category).subscribe(responseData=> {
+            element.categoryName = responseData.categoryName;
+          })
+        });
+      }
+      
+      this.transactionsDataSource = new MatTableDataSource<AddTransactionModel>(this.transactionList);
+    })
+  }
+  
+  refreshTable() {
+    console.log("refreshing");
+    this.getFilteredTransactionList();
+  }
+
+  getCategoryList() {
+    this.categoryService.getCategorysBelongsToRoom<GetCategoryList>(this.currentID).subscribe(responseData=> {
+      this.categoryList = responseData;
+      console.log(this.categoryList);
+    })
   }
 
   logout(){

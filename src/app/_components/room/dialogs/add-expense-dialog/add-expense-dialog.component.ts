@@ -67,7 +67,7 @@ export class AddExpenseDialogComponent implements OnInit {
 
   addNewTransaction() {
     this.transactionService.addNewTransaction(new AddTransactionModel(this.newExpenseTitle, this.newExpenseDescription, 
-      this.newExpenseValue, this.newExpenseDate, this.selectedCategory._id, this.data.roomID, this.data.isIncome)).subscribe(responseData=> {
+      this.newExpenseValue, this.newExpenseDate, this.selectedCategory._id, this.data.roomID, this.data.isIncome, null)).subscribe(responseData=> {
         if(!this.data.isIncome) {
           this.toastr.success('Sukces!', 'Dodałeś nowy wydatek!');
         }

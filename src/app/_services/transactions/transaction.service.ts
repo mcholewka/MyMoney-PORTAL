@@ -26,4 +26,10 @@ export class TransactionService {
         return this.http.get<AddTransactionModel[]>(url);
     }
 
+    public getFilteredTransactionList<AddTransactionModel>(roomID: string, expense: Boolean, income: Boolean, startDate: Date, endDate: Date) {
+        var url = environment.baseBackendUrl + baseURL + "/filteredTransactions/" + roomID + "?expense="+ expense + "&income=" + income + "&startDate=" + startDate + "&endDate=" + endDate;
+        console.log(url);
+        return this.http.get<AddTransactionModel[]>(url);
+    }
+
 }

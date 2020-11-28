@@ -6,6 +6,7 @@ import { throwError } from 'rxjs';
 import { catchError,  } from 'rxjs/operators';
 import {GetCategoryList} from "../../_models/categorys/getCategorysList.model";
 import {AddNewCategoryModel} from "../../_models/categorys/addNewCategory.model";
+import {GetSingleCategoryModel} from "../../_models/categorys/getSingleCategory.model";
 
 const baseURL = "api/categorys";
 
@@ -22,5 +23,10 @@ export class CategoryService {
     public addNewCategory(addCategory: AddNewCategoryModel) {
         var url = environment.baseBackendUrl + baseURL;
         return this.http.post(url, addCategory);
+    }
+
+    public getSingleCategory<GetSingleCategoryModel>(categoryId: string) {
+        var url = environment.baseBackendUrl + baseURL+"/getSingleCategory/" +categoryId;
+        return this.http.get<GetSingleCategoryModel>(url);
     }
 }

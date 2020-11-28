@@ -100,7 +100,31 @@
                             <i style="padding-right: 10px;" class="fas fa-table"></i>
                             Transakcje
                         </ng-template>
-                        
+
+                        <div style="margin-top: 15px;">
+                            <mat-form-field style="width: 25%; margin-right: 15px;">
+                                <mat-label>Wybierz date początkową:</mat-label>
+                                <input (dateChange)="refreshTable()" matInput [matDatepicker]="picker" [(ngModel)]="startDate">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                            <mat-form-field style="width: 25%; margin-right: 15px;">
+                                <mat-label>Wybierz date końcową:</mat-label>
+                                <input (dateChange)="refreshTable()" matInput [matDatepicker]="picker2" [(ngModel)]="endDate">
+                                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                            </mat-form-field>
+                            <mat-checkbox (change)="refreshTable()" [color]="'primary'" style="margin-right: 15px;" class="example-margin" [(ngModel)]="expenseCheckbox">Wydatki</mat-checkbox>
+                            <mat-checkbox (change)="refreshTable()" [color]="'primary'" style="margin-right: 15px;" class="example-margin" [(ngModel)]="incomeCheckbox">Przychody</mat-checkbox>
+                            <mat-form-field appearance="fill">
+                                <mat-label>Wybierz kategorie:</mat-label>
+                                <mat-select [(ngModel)]="filterCategory">
+                                    <mat-option *ngFor="let item of categoryList" [value]="item">{{item.categoryName}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <mat-divider></mat-divider>
+
                         <table mat-table [dataSource]="transactionsDataSource" style="width: 100%;">
                             
                             <ng-container matColumnDef="arrow">
@@ -133,7 +157,7 @@
 
                             <ng-container matColumnDef="category">
                                 <th style="width: 80px;" mat-header-cell *matHeaderCellDef> Kategoria: </th>
-                                <td mat-cell *matCellDef="let element"><button mat-button style="width: 100%;" type="button"> {{element.category}}</button>  </td>
+                                <td mat-cell *matCellDef="let element"><button mat-button style="width: 100%;" type="button"> {{element.categoryName}}</button>  </td>
                             </ng-container>
                       
                           <tr mat-header-row *matHeaderRowDef="transactionsDisplayedColumns"></tr>
