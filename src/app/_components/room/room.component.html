@@ -173,6 +173,30 @@
                             Podsumowanie
                         </ng-template>
                         Content 2
+
+                        <div class="chart">
+                            <canvas baseChart
+                              [data]="pieChartData"
+                              [labels]="pieChartLabels"
+                              [chartType]="pieChartType"
+                              [options]="pieChartOptions"
+                              [plugins]="pieChartPlugins"
+                              [colors]="pieChartColors"
+                              [legend]="pieChartLegend">
+                            </canvas>
+                          </div>
+
+                          <div style="display: block">
+                            <canvas baseChart
+                              [datasets]="barChartData"
+                              [labels]="barChartLabels"
+                              [options]="barChartOptions"
+                              [plugins]="barChartPlugins"
+                              [legend]="barChartLegend"
+                              [chartType]="barChartType">
+                            </canvas>
+                          </div>
+
                         </mat-tab>
                     </mat-tab-group>
                 </mat-card>

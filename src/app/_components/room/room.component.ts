@@ -24,6 +24,13 @@ import {AddTransactionModel} from "../../_models/transaction/addTransaction.mode
 import {GetSingleCategoryModel} from "../../_models/categorys/getSingleCategory.model";
 import {GetCategory} from "../../_models/categorys/getCategory.model";
 import {GetCategoryList} from "../../_models/categorys/getCategorysList.model";
+import {ChartService} from "../../_services/charts/chart.service";
+import {GetPieChartDataModel} from "../../_models/charts/getPieChartData.model";
+import { ChartType, ChartOptions, ChartDataSets } from 'chart.js';
+import { Label } from 'ng2-charts';
+import * as pluginDataLabels from 'chartjs-plugin-datalabels';
+import {GetPieChartDataListModel} from "../../_models/charts/getPieChartDataList.model";
+import {GetBarChartDataModel} from "../../_models/charts/getBarChartData.model";
 
 @Component({
   selector: 'app-room',
@@ -63,8 +70,60 @@ export class RoomComponent implements OnInit {
   filterCategory: GetCategory;
   categoryList: GetCategoryList;
 
+  public pieChartOptions: ChartOptions = {
+    responsive: true,
+    legend: {
+      position: 'top',
+    },
+    plugins: {
+      datalabels: {
+        formatter: (value, ctx) => {
+          const label = ctx.chart.data.labels[ctx.dataIndex];
+          return label;
+        },
+      },
+    }
+  };
+  public pieChartLabels: Label[] = [];
+  public pieChartData: number[] = [];
+  public pieChartType: ChartType = 'pie';
+  public pieChartLegend = true;
+  public pieChartPlugins = [pluginDataLabels];
+  public pieChartColors = [
+    {
+      backgroundColor: ['rgba(255,0,0,0.3)', 'rgba(0,255,0,0.3)', 'rgba(0,0,255,0.3)', 'rgba(26, 34, 123, 0.1)', 'rgba(156, 109, 255, 0)', 'rgba(19, 51, 224, 0.7)', 'rgba(181, 37, 89, 1)'],
+    },
+  ];
+
+
+  public barChartOptions: ChartOptions = {
+    responsive: true,
+    // We use these empty structures as placeholders for dynamic theming.
+    scales: { xAxes: [{}], yAxes: [{}] },
+    plugins: {
+      datalabels: {
+        anchor: 'end',
+        align: 'end',
+      }
+    }
+  };
+  public barChartLabels: Label[] = [];
+  public barChartType: ChartType = 'bar';
+  public barChartLegend = true;
+  public barChartPlugins = [pluginDataLabels];
+
+  public barChartData: ChartDataSets[] = [
+    { data: [], label: 'Przychody' },
+    { data: [], label: 'Wydatki' }
+  ];
+
+
+  pieChart: GetPieChartDataModel[];
+  barChart: GetBarChartDataModel[];
+  months = ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
+
   constructor(public router: Router, private activatedRoute: ActivatedRoute, private toastr: ToastrService, public userService: UserService, public roomService: RoomService, 
-    public dialog: MatDialog, public categoryService: CategoryService, public transactionService: TransactionService) { 
+    public dialog: MatDialog, public categoryService: CategoryService, public transactionService: TransactionService, public chartService: ChartService) { 
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
         this.currentID = this.activatedRoute.snapshot.paramMap.get('id');
@@ -85,6 +144,8 @@ export class RoomComponent implements OnInit {
     this.expenseCheckbox = true;
     this.incomeCheckbox = true;
     this.getCategoryList();
+    this.getPieChartData();
+    this.getBarChartData();
   }
 
   getRoomList() {
@@ -180,7 +241,6 @@ export class RoomComponent implements OnInit {
 
   getTransactionsList() {
     this.transactionService.getTransactionList<AddTransactionModel>(this.currentID).subscribe(responseData => {
-      console.log(responseData);
       this.transactionList = responseData;
 
       this.transactionList.forEach(element => {
@@ -218,6 +278,32 @@ export class RoomComponent implements OnInit {
       this.categoryList = responseData;
       console.log(this.categoryList);
     })
+  }
+
+  getPieChartData() {
+    this.chartService.getPieChartData<GetPieChartDataModel[]>(this.currentID).subscribe(responseData => {
+      
+      this.pieChart = responseData;
+      this.pieChart.forEach(element => {
+        this.categoryService.getSingleCategory<GetSingleCategoryModel>(element._id).subscribe(responseData=> {
+          element.categoryName = responseData.categoryName;
+          this.pieChartLabels.push(element.categoryName);
+          this.pieChartData.push(element.total);
+        })
+      });
+    })
+  }
+
+  getBarChartData() {
+    this.chartService.getBarChartData<GetBarChartDataModel[]>(this.currentID).subscribe(responseData => {
+      this.barChart = responseData;
+      this.barChart.forEach(element => {
+        this.barChartLabels.push(this.months[element._id-1]);
+        this.barChartData[0].data.push(element.totalExpense);
+        this.barChartData[1].data.push(element.totalIncome);
+        console.log(this.barChartData);
+      });
+    });
   }
 
   logout(){
