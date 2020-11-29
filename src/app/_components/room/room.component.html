@@ -159,6 +159,21 @@
                                 <th style="width: 80px;" mat-header-cell *matHeaderCellDef> Kategoria: </th>
                                 <td mat-cell *matCellDef="let element"><button mat-button style="width: 100%;" type="button"> {{element.categoryName}}</button>  </td>
                             </ng-container>
+
+                            <ng-container matColumnDef="options">
+                                <th style="width: 80px;" mat-header-cell *matHeaderCellDef> Opcje: </th>
+                                <td mat-cell *matCellDef="let element"> 
+                                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                        <mat-icon>more_vert</mat-icon>
+                                      </button>
+                                      <mat-menu #menu="matMenu">
+                                        <button mat-menu-item (click)="deleteTransaction(element._id)">
+                                          <mat-icon>delete</mat-icon>
+                                          <span>Usuń</span>
+                                        </button>
+                                      </mat-menu>
+                                </td>
+                            </ng-container>
                       
                           <tr mat-header-row *matHeaderRowDef="transactionsDisplayedColumns"></tr>
                           <tr mat-row *matRowDef="let row; columns: transactionsDisplayedColumns;"></tr>

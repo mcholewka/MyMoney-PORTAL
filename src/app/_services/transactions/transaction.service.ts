@@ -32,4 +32,9 @@ export class TransactionService {
         return this.http.get<AddTransactionModel[]>(url);
     }
 
+    public deleteTransaction(transactionID: string) {
+        var url = environment.baseBackendUrl + baseURL + "/" + transactionID;
+        return this.http.delete(url);
+    }
+
 }

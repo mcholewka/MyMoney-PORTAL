@@ -60,7 +60,7 @@ export class RoomComponent implements OnInit {
   newUserEmail: string;
 
   transactionList: AddTransactionModel[];
-  transactionsDisplayedColumns: string[] = ['arrow','transactionName', 'transactionDescription', 'transactionValue', 'transactionDate', 'category'];
+  transactionsDisplayedColumns: string[] = ['arrow','transactionName', 'transactionDescription', 'transactionValue', 'transactionDate', 'category', 'options'];
   transactionsDataSource: MatTableDataSource<AddTransactionModel>;
 
   startDate: Date;
@@ -130,6 +130,8 @@ export class RoomComponent implements OnInit {
         this.getRoom(this.currentID);
         this.getUsers();
         this.getTransactionsList();
+        this.getPieChartData();
+        this.getBarChartData();
       }
       
     });
@@ -276,13 +278,13 @@ export class RoomComponent implements OnInit {
   getCategoryList() {
     this.categoryService.getCategorysBelongsToRoom<GetCategoryList>(this.currentID).subscribe(responseData=> {
       this.categoryList = responseData;
-      console.log(this.categoryList);
     })
   }
 
   getPieChartData() {
     this.chartService.getPieChartData<GetPieChartDataModel[]>(this.currentID).subscribe(responseData => {
-      
+      this.pieChartLabels = [];
+      this.pieChartData = [];
       this.pieChart = responseData;
       this.pieChart.forEach(element => {
         this.categoryService.getSingleCategory<GetSingleCategoryModel>(element._id).subscribe(responseData=> {
@@ -296,13 +298,22 @@ export class RoomComponent implements OnInit {
 
   getBarChartData() {
     this.chartService.getBarChartData<GetBarChartDataModel[]>(this.currentID).subscribe(responseData => {
+      this.barChartLabels = [];
+      this.barChartData[0].data = [];
+      this.barChartData[1].data = [];
       this.barChart = responseData;
       this.barChart.forEach(element => {
         this.barChartLabels.push(this.months[element._id-1]);
         this.barChartData[0].data.push(element.totalExpense);
         this.barChartData[1].data.push(element.totalIncome);
-        console.log(this.barChartData);
       });
+    });
+  }
+
+  deleteTransaction(transactionID: string) {
+    this.transactionService.deleteTransaction(transactionID).subscribe(responseData => {
+      this.toastr.info('Usunięto tranzakcje!');
+      this.getTransactionsList();
     });
   }
 
