@@ -234,6 +234,8 @@ export class RoomComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       this.getFilteredTransactionList();
+      this.getPieChartData();
+      this.getBarChartData();
     });
   }
 
@@ -315,6 +317,10 @@ export class RoomComponent implements OnInit {
       this.toastr.info('Usunięto tranzakcje!');
       this.getTransactionsList();
     });
+  }
+
+  userManagement() {
+
   }
 
   logout(){
