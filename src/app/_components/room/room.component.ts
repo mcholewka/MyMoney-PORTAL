@@ -31,6 +31,7 @@ import { Label } from 'ng2-charts';
 import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 import {GetPieChartDataListModel} from "../../_models/charts/getPieChartDataList.model";
 import {GetBarChartDataModel} from "../../_models/charts/getBarChartData.model";
+import { typeofExpr } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-room',
@@ -121,6 +122,10 @@ export class RoomComponent implements OnInit {
   pieChart: GetPieChartDataModel[];
   barChart: GetBarChartDataModel[];
   months = ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
+
+  totalIncome: number = 0;
+  totalExpense: number = 0;
+  balance: number = 0;
 
   constructor(public router: Router, private activatedRoute: ActivatedRoute, private toastr: ToastrService, public userService: UserService, public roomService: RoomService, 
     public dialog: MatDialog, public categoryService: CategoryService, public transactionService: TransactionService, public chartService: ChartService) { 
@@ -246,12 +251,22 @@ export class RoomComponent implements OnInit {
   getTransactionsList() {
     this.transactionService.getTransactionList<AddTransactionModel>(this.currentID).subscribe(responseData => {
       this.transactionList = responseData;
-
+      this.totalExpense = 0;
+      this.totalIncome = 0;
+      this.balance = 0;
       this.transactionList.forEach(element => {
+        if(element.income==true) {
+          this.totalIncome+=element.transactionValue;
+        }
+        if(element.income == false) {
+          this.totalExpense+=element.transactionValue;
+        }
         this.categoryService.getSingleCategory<GetSingleCategoryModel>(element.category).subscribe(responseData=> {
           element.categoryName = responseData.categoryName;
         })
       });
+
+      this.balance = this.totalIncome- this.totalExpense;
 
       this.transactionsDataSource = new MatTableDataSource<AddTransactionModel>(this.transactionList);
     });
@@ -260,12 +275,22 @@ export class RoomComponent implements OnInit {
   getFilteredTransactionList() {
     this.transactionService.getFilteredTransactionList<AddTransactionModel>(this.currentID, this.expenseCheckbox, this.incomeCheckbox, this.startDate, this.endDate).subscribe(responseData=> {
       this.transactionList = responseData;
+      this.totalExpense = 0;
+      this.totalIncome = 0;
+      this.balance = 0;
       if(this.transactionList!=null) {
         this.transactionList.forEach(element => {
+          if(element.income==true) {
+            this.totalIncome+=element.transactionValue;
+          }
+          if(element.income == false) {
+            this.totalExpense+=element.transactionValue;
+          }
           this.categoryService.getSingleCategory<GetSingleCategoryModel>(element.category).subscribe(responseData=> {
             element.categoryName = responseData.categoryName;
           })
         });
+        this.balance = this.totalIncome- this.totalExpense;
       }
       
       this.transactionsDataSource = new MatTableDataSource<AddTransactionModel>(this.transactionList);

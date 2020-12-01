@@ -80,7 +80,7 @@
                             </mat-form-field>
                             <mat-checkbox (change)="refreshTable()" [color]="'primary'" style="margin-right: 15px;" class="example-margin" [(ngModel)]="expenseCheckbox">Wydatki</mat-checkbox>
                             <mat-checkbox (change)="refreshTable()" [color]="'primary'" style="margin-right: 15px;" class="example-margin" [(ngModel)]="incomeCheckbox">Przychody</mat-checkbox>
-                            <mat-form-field appearance="fill">
+                            <mat-form-field>
                                 <mat-label>Wybierz kategorie:</mat-label>
                                 <mat-select [(ngModel)]="filterCategory">
                                     <mat-option *ngFor="let item of categoryList" [value]="item">{{item.categoryName}}</mat-option>
@@ -185,6 +185,22 @@
 
                         </mat-tab>
                     </mat-tab-group>
+
+                    <div style="display: flex; justify-content: center; align-items: center; width: 100%; font-size: 15px; font-weight: bold; margin-top: 20px;">
+                        <div style="display: flex; margin-right: 20px;">
+                            <div style="display: flex; flex-direction: column">
+                                <div>Suma wydatków:</div>
+                                <div>Suma przychodów:</div>
+                            </div>
+                            <div style="display: flex; flex-direction: column; margin-left: 5px;">
+                                <div>{{totalExpense}}</div>
+                                <div>{{totalIncome}}</div>
+                            </div>
+                        </div>
+                        <div>
+                            Saldo: {{balance}}
+                        </div>
+                    </div>
                 </mat-card>
             </div>
             

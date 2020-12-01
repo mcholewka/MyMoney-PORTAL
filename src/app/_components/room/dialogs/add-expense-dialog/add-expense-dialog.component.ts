@@ -21,7 +21,7 @@ export class AddExpenseDialogComponent implements OnInit {
   newExpenseTitle: string;
   newExpenseDescription: string;
   newExpenseCategoryID: string;
-  newExpenseValue: Number;
+  newExpenseValue: number;
   categoryList: GetCategoryList;
   newExpenseDate: Date;
   selectedCategory: GetCategory;

@@ -19,6 +19,7 @@ import { DeleteRoomDialogComponent } from './_components/room/dialogs/delete-roo
 import { AddExpenseDialogComponent } from './_components/room/dialogs/add-expense-dialog/add-expense-dialog.component';
 import { AddCategoryDialogComponent } from './_components/room/dialogs/add-category-dialog/add-category-dialog.component';
 import { ChartsModule } from 'ng2-charts';
+import { UserManagementComponent } from './_components/user-management/user-management.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ChartsModule } from 'ng2-charts';
     RoomComponent,
     DeleteRoomDialogComponent,
     AddExpenseDialogComponent,
-    AddCategoryDialogComponent
+    AddCategoryDialogComponent,
+    UserManagementComponent
   ],
   imports: [
     BrowserModule,
