@@ -27,7 +27,22 @@ export class TransactionService {
     }
 
     public getFilteredTransactionList<AddTransactionModel>(roomID: string, expense: Boolean, income: Boolean, startDate: Date, endDate: Date) {
+
+
         var url = environment.baseBackendUrl + baseURL + "/filteredTransactions/" + roomID + "?expense="+ expense + "&income=" + income + "&startDate=" + startDate + "&endDate=" + endDate;
+        
+        // if(expense) {
+        //     url+="&/income=false";
+        // }
+
+        // if(income) {
+        //     url+="&/income=true";
+        // }
+
+        // if(startDate!=undefined) {
+        //     url+="&/"
+        // }
+
         console.log(url);
         return this.http.get<AddTransactionModel[]>(url);
     }

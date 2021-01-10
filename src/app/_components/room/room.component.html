@@ -105,7 +105,7 @@
                             </ng-container>
                       
                             <ng-container matColumnDef="transactionDescription">
-                                <th style="width: 80px;" mat-header-cell *matHeaderCellDef> Opis transakcji: </th>
+                                <th style="width: 200px;" mat-header-cell *matHeaderCellDef> Opis transakcji: </th>
                                 <td mat-cell *matCellDef="let element"><button mat-button style="width: 100%;" type="button"> {{element.transactionDescription}}</button>  </td>
                             </ng-container>
 
@@ -168,7 +168,7 @@
                               </div>
 
                               <div style="width: 35%; float: left;" class="chart">
-                                Statystki tranzakcji na podstawie kategorii:
+                                Statystki transakcji na podstawie kategorii:
                                 
                                 <canvas style="margin-top: 100px;" baseChart
                                   [data]="pieChartData"
